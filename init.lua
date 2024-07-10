@@ -35,6 +35,7 @@ require("lazy").setup({
     { 'navarasu/onedark.nvim' },    -- Atom One Dark theme
     { 'kaarmu/typst.vim' },  	    -- Typst syntax highlighting
     { 'nvim-treesitter/nvim-treesitter'},
+    { 'chomosuke/typst-preview.nvim' },
   },
   install = { colorscheme = { "onedark" } },
   checker = { enabled = true },
@@ -56,9 +57,10 @@ require('nvim-treesitter.configs').setup {
         additional_vim_regex_highlighting = false,
     },
 }
+
 -- Configure the theme
 require('onedark').setup {
-  style = 'darker',
+  style = 'warm',
   colors = {
     variable_red = "#e06c75",    -- define a new color for variables
     module_blue = "#61afef",     -- define a new color for modules
@@ -91,6 +93,7 @@ nvim_lsp.typst_lsp.setup({
 nvim_lsp.pyright.setup({
   capabilities = capabilities,
 })
+
 -- Setup nvim-cmp
 local cmp = require('cmp')
 local luasnip = require('luasnip')
@@ -116,13 +119,15 @@ cmp.setup({
   })
 })
 
--- Use buffer source for `/` and `?`
-cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
+vim.api.nvim_set_keymap('n', '<F5>', '<cmd>lua ' ..
+    'local file_name = vim.fn.expand("%:t") ' ..
+    'if file_name:match("%.py$") then ' ..
+        'vim.api.nvim_command("!python %") ' ..
+    'elseif file_name:match("%.rs$") then ' ..
+        'vim.api.nvim_command("!cargo build && cargo run") ' ..
+    'else ' ..
+        'print("Unsupported file type") ' ..
+    'end<CR>', { noremap = true, silent = true })
 
 -- Use cmdline & path source for ':'
 cmp.setup.cmdline(':', {
