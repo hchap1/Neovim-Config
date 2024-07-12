@@ -19,7 +19,6 @@ vim.opt.rtp:prepend(lazypath)
 -- loading lazy.nvim so that mappings are correct.
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
-
 -- Setup lazy.nvim
 require("lazy").setup({
   'neovim/nvim-lspconfig',
@@ -36,6 +35,7 @@ require("lazy").setup({
     { 'kaarmu/typst.vim' },  	    -- Typst syntax highlighting
     { 'nvim-treesitter/nvim-treesitter'},
     { 'chomosuke/typst-preview.nvim' },
+    { 'm4xshen/autoclose.nvim' },
   },
   install = { colorscheme = { "onedark" } },
   checker = { enabled = true },
@@ -60,7 +60,7 @@ require('nvim-treesitter.configs').setup {
 
 -- Configure the theme
 require('onedark').setup {
-  style = 'warm',
+  style = 'darker',
   colors = {
     variable_red = "#e06c75",    -- define a new color for variables
     module_blue = "#61afef",     -- define a new color for modules
