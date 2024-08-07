@@ -35,15 +35,19 @@ require("lazy").setup({
     { 'kaarmu/typst.vim' },  	    -- Typst syntax highlighting
     { 'nvim-treesitter/nvim-treesitter'},
     { 'chomosuke/typst-preview.nvim' },
-    { 'm4xshen/autoclose.nvim' },
+    {
+	   "m4xshen/hardtime.nvim",
+	   dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+	   opts = {}
+	},
   },
   install = { colorscheme = { "onedark" } },
   checker = { enabled = true },
 })
-
+require("hardtime").setup()
 require('nvim-treesitter.configs').setup {
     -- A list of parser names, or "all" (the four listed parsers should always be installed)
-    ensure_installed = { "c", "lua", "vim", "python", "rust" },
+    ensure_installed = { "c", "lua", "vim", "python", "rust", "html"},
 
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
@@ -61,20 +65,8 @@ require('nvim-treesitter.configs').setup {
 -- Configure the theme
 require('onedark').setup {
   style = 'darker',
-  colors = {
-    variable_red = "#e06c75",    -- define a new color for variables
-    module_blue = "#61afef",     -- define a new color for modules
-    function_yellow = "#e5c07b"  -- define a new color for functions
-  },
   code_style = {
     comments = 'italic',
-    keywords = 'none',
-    functions = 'none',
-    strings = 'none',
-    variables = 'none'
-  },
-  highlights = {
-    ["@variable"] = {fg = '$variable_red'},   -- variable highlight
   },
 }
 require('onedark').load()
@@ -82,16 +74,32 @@ require('onedark').load()
 -- Setup LSP for Rust using nvim-lspconfig
 local nvim_lsp = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+capabilities.textDocument.semanticTokens = { dynamicRegistration = false, tokenTypes = {}, tokenModifiers = {}, formats = {}, requests = { range = true, full = true }, multilineTokenSupport = false, overlappingTokenSupport = false }
 
-nvim_lsp.rust_analyzer.setup({
-  capabilities = capabilities,
-})
 nvim_lsp.typst_lsp.setup({
   capabilities = capabilities,
 })
 
+nvim_lsp.rust_analyzer.setup({
+    capabilities = capabilities,
+    settings = {
+        ['rust-analyzer'] = {
+            highlight = {
+                enabled = true,
+            },
+        },
+    },
+})
+
 nvim_lsp.pyright.setup({
-  capabilities = capabilities,
+    capabilities = capabilities,
+    settings = {
+        python = {
+            analysis = {
+                semanticTokens = true,
+            },
+        },
+    },
 })
 
 -- Setup nvim-cmp
@@ -109,7 +117,7 @@ cmp.setup({
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -119,12 +127,14 @@ cmp.setup({
   })
 })
 
+vim.api.nvim_set_keymap('n', '``', ':wincmd w<CR>', { noremap = true, silent = false })
 vim.api.nvim_set_keymap('n', '<F5>', '<cmd>lua ' ..
     'local file_name = vim.fn.expand("%:t") ' ..
     'if file_name:match("%.py$") then ' ..
         'vim.api.nvim_command("!python %") ' ..
     'elseif file_name:match("%.rs$") then ' ..
-        'vim.api.nvim_command("!cargo build && cargo run") ' ..
+    	'vim.api.nvim_command("term") ' ..
+        'vim.api.nvim_command("!cargo build") ' ..
     'else ' ..
         'print("Unsupported file type") ' ..
     'end<CR>', { noremap = true, silent = true })
@@ -138,9 +148,15 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline' }
   })
 })
+vim.cmd("set number")
 
 vim.cmd [[
 augroup filetypedetect
     autocmd! BufRead,BufNewFile *.typ setfiletype typst
 augroup END
 ]]
+
+
+vim.g.neovide_cursor_animate_command_line = false
+vim.g.neovide_cursor_animation_length = 0.08
+vim.g.neovide_cursor_trail_size = 0.5
