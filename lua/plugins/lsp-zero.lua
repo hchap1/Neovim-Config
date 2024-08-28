@@ -42,7 +42,7 @@ M.config = function ()
 
     require('mason').setup({})
     require('mason-lspconfig').setup({
-        ensure_installed = {"rust_analyzer", "lua_ls", "tinymist" },
+        ensure_installed = { "rust_analyzer", "lua_ls", "tinymist", "pyright" },
         handlers = {
             function(server_name)
                 require('lspconfig')[server_name].setup({
@@ -54,6 +54,7 @@ M.config = function ()
             rust_analyzer = function() require("lsp.rust_analyzer") end,
             tinymist = function() require("lsp.tinymist") end,
             lua_ls = function() require("lsp.lua_ls") end,
+            pyright = function() require("lsp.pyright") end,
         },
     })
 end

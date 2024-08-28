@@ -9,4 +9,7 @@ return {
     require("plugins.hardtime"),
     require("plugins.lspkind"),
     require("plugins.typst-preview"),
+	require("plugins.telescope"),
+	require("plugins.autoclose"),
+	require("plugins.notify")
 }

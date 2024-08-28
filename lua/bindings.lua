@@ -8,7 +8,8 @@ vim.api.nvim_set_keymap('n', '<F5>', '<cmd>lua ' ..
         'vim.api.nvim_command("!python %") ' ..
     'elseif file_name:match("%.rs$") then ' ..
         'vim.api.nvim_command("term") ' ..
-        'vim.api.nvim_command("!cargo build") ' ..
     'else ' ..
         'print("Unsupported file type") ' ..
     'end<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '`1', ':TypstPreview<CR>', { noremap = true, silent = false} )
+vim.api.nvim_set_keymap('n', '<CR>f', ':Telescope find_files<CR>', { noremap = true, silent = false} )
