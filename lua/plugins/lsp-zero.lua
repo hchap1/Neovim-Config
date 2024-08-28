@@ -6,13 +6,21 @@ M = {
         {'neovim/nvim-lspconfig'},
         {'hrsh7th/cmp-nvim-lsp'},
         {'hrsh7th/nvim-cmp'},
+		{
+            "L3MON4D3/LuaSnip",
+            version = "v2.*",
+            build = "make install_jsregexp"
+        },
+        "dcampos/nvim-snippy",
+        "honza/vim-snippets",
+
+        -- LSPs
+        "zjp-CN/nvim-cmp-lsp-rs",
     }
 }
 
 local lsp_attach = function (client, bufnr)
     local opts = {buffer = bufnr}
-
-    -- vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
     vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
@@ -29,20 +37,23 @@ M.config = function ()
     lsp_zero.extend_lspconfig({
         sign_text = true,
         lsp_attach = lsp_attach,
-        capabilities = require("cmp_nvim_lsp").default_capabilities(),
+        capabilities = require('cmp_nvim_lsp').default_capabilities(),
     })
 
-    require("mason").setup({})
-    require("mason-lspconfig").setup({
+    require('mason').setup({})
+    require('mason-lspconfig').setup({
+        ensure_installed = {"rust_analyzer", "lua_ls", "tinymist" },
         handlers = {
             function(server_name)
-                require("lspconfig")[server_name].setup({
-                    root_dir = function(fname) return vim.fn.getcwd() end,
+                require('lspconfig')[server_name].setup({
+                    root_dir = function() return vim.fn.getcwd() end,
+                    on_attach = lsp_attach,
+                    capabilities = require('cmp_nvim_lsp').default_capabilities()
                 })
             end,
-
-            lua_ls = function() require("lsp.lua_ls") end,
+            rust_analyzer = function() require("lsp.rust_analyzer") end,
             tinymist = function() require("lsp.tinymist") end,
+            lua_ls = function() require("lsp.lua_ls") end,
         },
     })
 end

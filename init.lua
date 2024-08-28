@@ -17,12 +17,11 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     spec = {
-	require("plugins")
-    },
-    checker = {
-	enabled = true,
-	notify = true,
+		require("plugins")
     }
 })
 
 require("settings")
+require("bindings")
+
+vim.cmd("colorscheme onedark")
