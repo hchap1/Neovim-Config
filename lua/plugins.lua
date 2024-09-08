@@ -11,5 +11,6 @@ return {
     require("plugins.typst-preview"),
 	require("plugins.telescope"),
 	require("plugins.autoclose"),
-	require("plugins.notify")
+	require("plugins.notify"),
+	require("plugins.hover")
 }
