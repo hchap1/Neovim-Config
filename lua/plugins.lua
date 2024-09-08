@@ -10,7 +10,7 @@ return {
     require("plugins.lspkind"),
     require("plugins.typst-preview"),
 	require("plugins.telescope"),
-	require("plugins.autoclose"),
+	require("plugins.autopair"),
 	require("plugins.notify"),
 	require("plugins.hover")
 }
