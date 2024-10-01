@@ -2,14 +2,14 @@ return {
     require("plugins.nvim-cmp"),
     require("plugins.lsp-zero"),
 	require("plugins.onedark"),
+	require("plugins.tundra"),
     require("plugins.treesitter"),
     require("plugins.screenkey"),
     require("plugins.barbar"),
     require("plugins.lualine"),
-    require("plugins.hardtime"),
     require("plugins.lspkind"),
     require("plugins.typst-preview"),
 	require("plugins.telescope"),
-	require("plugins.autoclose"),
-	require("plugins.notify")
+	require("plugins.notify"),
+	require("plugins.transparent")
 }
