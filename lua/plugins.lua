@@ -11,7 +11,7 @@ return {
     require("plugins.typst-preview"),
     require("plugins.telescope"),
     require("plugins.notify"),
-    require("plugins.transparent")
+    require("plugins.transparent"),
     require("plugins.autopair"),
     require("plugins.notify"),
     require("plugins.hover")
