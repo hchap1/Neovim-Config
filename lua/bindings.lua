@@ -7,7 +7,7 @@ vim.api.nvim_set_keymap('n', '<F5>', '<cmd>lua ' ..
     'if file_name:match("%.py$") then ' ..
         'vim.api.nvim_command("!python %") ' ..
     'elseif file_name:match("%.rs$") then ' ..
-        'vim.api.nvim_command("term") ' ..
+		'vim.api.nvim_command("!cargo build")' ..
     'else ' ..
         'print("Unsupported file type") ' ..
     'end<CR>', { noremap = true, silent = true })

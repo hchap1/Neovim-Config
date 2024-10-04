@@ -2,6 +2,7 @@ return {
     require("plugins.nvim-cmp"),
     require("plugins.lsp-zero"),
 	require("plugins.onedark"),
+	require("plugins.tokyonight"),
     require("plugins.treesitter"),
     require("plugins.screenkey"),
     require("plugins.barbar"),
