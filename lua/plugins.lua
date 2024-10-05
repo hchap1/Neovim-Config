@@ -7,7 +7,8 @@ return {
     require("plugins.treesitter"),
     require("plugins.screenkey"),
     require("plugins.barbar"),
-    require("plugins.lualine"),
+    -- Removed until illegal character patch: require("plugins.lualine"),
+	require("plugins.galaxyline"), -- Lualine alternative
     require("plugins.lspkind"),
     require("plugins.typst-preview"),
     require("plugins.telescope"),
