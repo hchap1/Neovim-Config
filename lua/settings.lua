@@ -12,5 +12,8 @@ vim.g.neovide_cursor_animation_length = 0.08
 vim.g.neovide_cursor_trail_size = 0.5
 
 -- Vim settings
+vim.opt.laststatus = 2
+vim.opt.showmode = false
 vim.opt.termguicolors = true
+vim.opt.cmdheight = 1
 vim.notify = require("notify")
